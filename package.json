@@ -24,5 +24,8 @@
   },
   "devDependencies": {
     "mithril-resolver": "0.0.10"
+  },
+  "dependencies": {
+    "mithril-resolver": "0.0.11"
   }
 }

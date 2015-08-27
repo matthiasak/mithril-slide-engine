@@ -1,119 +1,15 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-'use strict';
+"use strict";
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } }
-
-var _mithrilResolver = require('mithril-resolver');
-
-var qs = function qs(s) {
-    var e = arguments.length <= 1 || arguments[1] === undefined ? document : arguments[1];
-    return s ? e.querySelector(s) : e;
-};
-
-var computable = function computable(fn) {
-    return function () {
-        _mithrilResolver.m.startComputation();
-        var result = fn.apply(undefined, arguments);
-        _mithrilResolver.m.endComputation();
-        return result;
-    };
-};
-
-var engine = function engine() {
-    var parseHash = function parseHash() {
-        return parseInt(window.location.hash.slice(1)) || 0;
-    };
-
-    var slides = _mithrilResolver.m.prop([]),
-        active = _mithrilResolver.m.prop(parseHash()),
-        prev = _mithrilResolver.m.prop();
-
-    var insert = computable(function (val, index) {
-        if (val instanceof Function) val = { view: val };
-        if (!val.controller) val.controller = function () {};
-
-        if (typeof index === 'undefined') index = slides().length;
-
-        var i = slides();
-        var first = i.slice(0, index);
-        var third = i.slice(index + 1);
-
-        return slides([].concat(_toConsumableArray(first), [val], _toConsumableArray(third)));
-    });
-
-    var remove = computable(function (index) {
-        var i = slides();
-        var first = i.slice(0, index);
-        var second = i.slice(index + 1);
-
-        return slides([].concat(_toConsumableArray(first), _toConsumableArray(second)));
-    });
-
-    var navigate = function navigate(index) {
-        window.location.hash = '#' + index;
-        prev(active());
-        return active(index);
-    };
-
-    var LEFT = 37,
-        RIGHT = 39;
-
-    var events = {
-        onkeyup: function onkeyup(e) {
-            var keyCode = e.keyCode;
-
-            if (LEFT === keyCode) {
-                var next = active() - 1;
-                if (next < 0) next = slides().length - 1;
-                navigate(next);
-            } else if (RIGHT === keyCode) {
-                var next = active() + 1;
-                if (next > slides().length - 1) next = 0;
-                navigate(next);
+var _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i];for (var key in source) {
+            if (Object.prototype.hasOwnProperty.call(source, key)) {
+                target[key] = source[key];
             }
         }
-    };
-
-    var config = function config(element, init, vdom) {
-        if (active() === prev()) return;
-    };
-
-    var hashChanger = function hashChanger() {
-        return window.addEventListener('hashchange', function () {
-            var hash = window.location.hash;
-            var slide = parseInt(hash.slice(1));
-            if (slide !== NaN) {
-                navigate(slide);
-            }
-        });
-    };
-
-    var valueOf = function valueOf(a) {
-        return a();
-    };
-
-    var view = function view(ctrl) {
-        var a = active(),
-            s = slides(),
-            sel = active() < prev() && 'from-left' || active() > prev() && 'from-right' || '';
-
-        var _slide = (0, _mithrilResolver.m)('div', { key: a, className: sel }, s[a]);
-
-        return (0, _mithrilResolver.m)('html', { config: config }, [(0, _mithrilResolver.m)('head', [(0, _mithrilResolver.m)('title', 'something'), (0, _mithrilResolver.m)('meta', { name: 'viewport', content: "width=device-width, initial-scale=1.0" }), (0, _mithrilResolver.m)('link', { href: './style.css', type: 'text/css', rel: 'stylesheet' })]), (0, _mithrilResolver.m)('body', events, [(0, _mithrilResolver.m)('.slides', _slide) //_slides.map(valueOf))
-        ])]);
-    };
-
-    var render = function render() {
-        return (hashChanger(), _mithrilResolver.m.mount(qs.apply(undefined, arguments), { view: view }));
-    };
-
-    return { slides: slides, insert: insert, remove: remove, navigate: navigate, render: render };
+    }return target;
 };
-
-module.exports = { engine: engine, resolver: _mithrilResolver.resolver, container: _mithrilResolver.container, m: _mithrilResolver.m };
-
-},{"mithril-resolver":3}],2:[function(require,module,exports){
-"use strict";
 
 var m = (function app(window, undefined) {
     "use strict";
@@ -159,7 +55,7 @@ var m = (function app(window, undefined) {
 
     function getAttributes(node) {
         return slice(node.attributes).reduce(function (a, v) {
-            if (v.name === "class") {
+            if (v.name === 'class') {
                 a.className = a["class"];
             } else {
                 a[v.name] = v.value;
@@ -458,17 +354,17 @@ var m = (function app(window, undefined) {
             //corner case: replacing the nodeValue of a text node that is a child of a textarea/contenteditable doesn't work
             //we need to update the value property of the parent textarea or the innerHTML of the contenteditable element instead
             else if (parentTag === "textarea") {
-                parentElement.value = data;
-            } else if (editable) {
-                editable.innerHTML = data;
-            } else {
-                //was a trusted string
-                if (nodes[0].nodeType === 1 || nodes.length > 1) {
-                    clear(cached.nodes, cached);
-                    nodes = [$document.createTextNode(data)];
+                    parentElement.value = data;
+                } else if (editable) {
+                    editable.innerHTML = data;
+                } else {
+                    //was a trusted string
+                    if (nodes[0].nodeType === 1 || nodes.length > 1) {
+                        clear(cached.nodes, cached);
+                        nodes = [$document.createTextNode(data)];
+                    }
+                    injectTextNode(parentElement, nodes[0], index, data);
                 }
-                injectTextNode(parentElement, nodes[0], index, data);
-            }
         }
         cached = new data.constructor(data);
         cached.nodes = nodes;
@@ -701,28 +597,28 @@ var m = (function app(window, undefined) {
                     if (attrName === "config" || attrName === "key") continue;
                     //hook event handlers to the auto-redrawing system
                     else if (isFunction(dataAttr) && attrName.slice(0, 2) === "on") {
-                        node[attrName] = autoredraw(dataAttr, node);
-                    }
-                    //handle `style: {...}`
-                    else if (attrName === "style" && dataAttr != null && isObject(dataAttr)) {
-                        for (var rule in dataAttr) {
-                            if (cachedAttr == null || cachedAttr[rule] !== dataAttr[rule]) node.style[rule] = dataAttr[rule];
+                            node[attrName] = autoredraw(dataAttr, node);
                         }
-                        for (var rule in cachedAttr) {
-                            if (!(rule in dataAttr)) node.style[rule] = "";
-                        }
-                    }
-                    //handle SVG
-                    else if (namespace != null) {
-                        if (attrName === "href") node.setAttributeNS("http://www.w3.org/1999/xlink", "href", dataAttr);else node.setAttribute(attrName === "className" ? "class" : attrName, dataAttr);
-                    }
-                    //handle cases that are properties (but ignore cases where we should use setAttribute instead)
-                    //- list and form are typically used as strings, but are DOM element references in js
-                    //- when using CSS selectors (e.g. `m("[style='']")`), style is used as a string, but it's an object in js
-                    else if (attrName in node && attrName !== "list" && attrName !== "style" && attrName !== "form" && attrName !== "type" && attrName !== "width" && attrName !== "height") {
-                        //#348 don't set the value if not needed otherwise cursor placement breaks in Chrome
-                        if (tag !== "input" || node[attrName] !== dataAttr) node[attrName] = dataAttr;
-                    } else node.setAttribute(attrName, dataAttr);
+                        //handle `style: {...}`
+                        else if (attrName === "style" && dataAttr != null && isObject(dataAttr)) {
+                                for (var rule in dataAttr) {
+                                    if (cachedAttr == null || cachedAttr[rule] !== dataAttr[rule]) node.style[rule] = dataAttr[rule];
+                                }
+                                for (var rule in cachedAttr) {
+                                    if (!(rule in dataAttr)) node.style[rule] = "";
+                                }
+                            }
+                            //handle SVG
+                            else if (namespace != null) {
+                                    if (attrName === "href") node.setAttributeNS("http://www.w3.org/1999/xlink", "href", dataAttr);else node.setAttribute(attrName === "className" ? "class" : attrName, dataAttr);
+                                }
+                                //handle cases that are properties (but ignore cases where we should use setAttribute instead)
+                                //- list and form are typically used as strings, but are DOM element references in js
+                                //- when using CSS selectors (e.g. `m("[style='']")`), style is used as a string, but it's an object in js
+                                else if (attrName in node && attrName !== "list" && attrName !== "style" && attrName !== "form" && attrName !== "type" && attrName !== "width" && attrName !== "height") {
+                                        //#348 don't set the value if not needed otherwise cursor placement breaks in Chrome
+                                        if (tag !== "input" || node[attrName] !== dataAttr) node[attrName] = dataAttr;
+                                    } else node.setAttribute(attrName, dataAttr);
                 } catch (e) {
                     //swallow IE's invalid argument errors to mimic HTML's fallback-to-doing-nothing-on-invalid-attributes behavior
                     if (e.message.indexOf("Invalid argument") < 0) throw e;
@@ -730,8 +626,8 @@ var m = (function app(window, undefined) {
             }
             //#348 dataAttr may not be a string, so use loose comparison (double equal) instead of strict (triple equal)
             else if (attrName === "value" && tag === "input" && node.value != dataAttr) {
-                node.value = dataAttr;
-            }
+                    node.value = dataAttr;
+                }
         }
         return cachedAttrs;
     }
@@ -772,7 +668,7 @@ var m = (function app(window, undefined) {
         };
 
         try {
-            $document.createRange().createContextualFragment("x");
+            $document.createRange().createContextualFragment('x');
             return rangeStrategy;
         } catch (e) {
             return insertAdjacentStrategy;
@@ -1059,61 +955,61 @@ var m = (function app(window, undefined) {
         if (arguments.length === 0) return currentRoute;
         //m.route(el, defaultRoute, routes)
         else if (arguments.length === 3 && isString(arg1)) {
-            redirect = function (source) {
-                var path = currentRoute = normalizeRoute(source);
-                if (!routeByValue(root, arg2, path)) {
-                    if (isDefaultRoute) throw new Error("Ensure the default route matches one of the routes defined in m.route");
-                    isDefaultRoute = true;
-                    m.route(arg1, true);
-                    isDefaultRoute = false;
-                }
-            };
-            var listener = m.route.mode === "hash" ? "onhashchange" : "onpopstate";
-            window[listener] = function () {
-                var path = $location[m.route.mode];
-                if (m.route.mode === "pathname") path += $location.search;
-                if (currentRoute !== normalizeRoute(path)) redirect(path);
-            };
-
-            computePreRedrawHook = setScroll;
-            window[listener]();
-        }
-        //config: m.route
-        else if (root.addEventListener || root.attachEvent) {
-            root.href = (m.route.mode !== "pathname" ? $location.pathname : "") + modes[m.route.mode] + vdom.attrs.href;
-            if (root.addEventListener) {
-                root.removeEventListener("click", routeUnobtrusive);
-                root.addEventListener("click", routeUnobtrusive);
-            } else {
-                root.detachEvent("onclick", routeUnobtrusive);
-                root.attachEvent("onclick", routeUnobtrusive);
-            }
-        }
-        //m.route(route, params, shouldReplaceHistoryEntry)
-        else if (isString(root)) {
-            var oldRoute = currentRoute;
-            currentRoute = root;
-            var args = arg1 || {};
-            var queryIndex = currentRoute.indexOf("?");
-            var params = queryIndex > -1 ? parseQueryString(currentRoute.slice(queryIndex + 1)) : {};
-            for (var i in args) params[i] = args[i];
-            var querystring = buildQueryString(params);
-            var currentPath = queryIndex > -1 ? currentRoute.slice(0, queryIndex) : currentRoute;
-            if (querystring) currentRoute = currentPath + (currentPath.indexOf("?") === -1 ? "?" : "&") + querystring;
-
-            var shouldReplaceHistoryEntry = (arguments.length === 3 ? arg2 : arg1) === true || oldRoute === root;
-
-            if (window.history.pushState) {
-                computePreRedrawHook = setScroll;
-                computePostRedrawHook = function () {
-                    window.history[shouldReplaceHistoryEntry ? "replaceState" : "pushState"](null, $document.title, modes[m.route.mode] + currentRoute);
+                redirect = function (source) {
+                    var path = currentRoute = normalizeRoute(source);
+                    if (!routeByValue(root, arg2, path)) {
+                        if (isDefaultRoute) throw new Error("Ensure the default route matches one of the routes defined in m.route");
+                        isDefaultRoute = true;
+                        m.route(arg1, true);
+                        isDefaultRoute = false;
+                    }
                 };
-                redirect(modes[m.route.mode] + currentRoute);
-            } else {
-                $location[m.route.mode] = currentRoute;
-                redirect(modes[m.route.mode] + currentRoute);
+                var listener = m.route.mode === "hash" ? "onhashchange" : "onpopstate";
+                window[listener] = function () {
+                    var path = $location[m.route.mode];
+                    if (m.route.mode === "pathname") path += $location.search;
+                    if (currentRoute !== normalizeRoute(path)) redirect(path);
+                };
+
+                computePreRedrawHook = setScroll;
+                window[listener]();
             }
-        }
+            //config: m.route
+            else if (root.addEventListener || root.attachEvent) {
+                    root.href = (m.route.mode !== 'pathname' ? $location.pathname : '') + modes[m.route.mode] + vdom.attrs.href;
+                    if (root.addEventListener) {
+                        root.removeEventListener("click", routeUnobtrusive);
+                        root.addEventListener("click", routeUnobtrusive);
+                    } else {
+                        root.detachEvent("onclick", routeUnobtrusive);
+                        root.attachEvent("onclick", routeUnobtrusive);
+                    }
+                }
+                //m.route(route, params, shouldReplaceHistoryEntry)
+                else if (isString(root)) {
+                        var oldRoute = currentRoute;
+                        currentRoute = root;
+                        var args = arg1 || {};
+                        var queryIndex = currentRoute.indexOf("?");
+                        var params = queryIndex > -1 ? parseQueryString(currentRoute.slice(queryIndex + 1)) : {};
+                        for (var i in args) params[i] = args[i];
+                        var querystring = buildQueryString(params);
+                        var currentPath = queryIndex > -1 ? currentRoute.slice(0, queryIndex) : currentRoute;
+                        if (querystring) currentRoute = currentPath + (currentPath.indexOf("?") === -1 ? "?" : "&") + querystring;
+
+                        var shouldReplaceHistoryEntry = (arguments.length === 3 ? arg2 : arg1) === true || oldRoute === root;
+
+                        if (window.history.pushState) {
+                            computePreRedrawHook = setScroll;
+                            computePostRedrawHook = function () {
+                                window.history[shouldReplaceHistoryEntry ? "replaceState" : "pushState"](null, $document.title, modes[m.route.mode] + currentRoute);
+                            };
+                            redirect(modes[m.route.mode] + currentRoute);
+                        } else {
+                            $location[m.route.mode] = currentRoute;
+                            redirect(modes[m.route.mode] + currentRoute);
+                        }
+                    }
     };
     m.route.param = function (key) {
         if (!routeParams) throw new Error("You must call m.route(element, defaultRoute, routes) before calling m.route.param()");
@@ -1147,7 +1043,7 @@ var m = (function app(window, undefined) {
                 return true;
             }
 
-            var matcher = new RegExp("^" + route.replace(/:[^\/]+?\.{3}/g, "(.*?)").replace(/:[^\/]+/g, "([^\\/]+)") + "/?$");
+            var matcher = new RegExp("^" + route.replace(/:[^\/]+?\.{3}/g, "(.*?)").replace(/:[^\/]+/g, "([^\\/]+)") + "\/?$");
 
             if (matcher.test(path)) {
                 path.replace(matcher, function () {
@@ -1574,24 +1470,13 @@ var m = (function app(window, undefined) {
     return m;
 })(typeof window !== "undefined" ? window : {});
 
-if (typeof module === "object" && module != null && module.exports) module.exports = m;else if (typeof define === "function" && define.amd) define(function () {
-    return m;
-});
-
-
-},{}],3:[function(require,module,exports){
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var m = require('./mithril');
 var containsAllProps = function containsAllProps(obj) {
     return Object.keys(obj).reduce(function (a, name) {
         return a && obj[name] instanceof Function && obj[name].name === 'prop';
     }, true);
 };
 var container = function container(component) {
-    var queries = arguments[1] === undefined ? {} : arguments[1];
+    var queries = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
     return function (resolver) {
         return m.component({
             controller: function controller() {
@@ -1618,12 +1503,12 @@ var container = function container(component) {
 };
 
 var resolver = function resolver() {
-    var states = arguments[0] === undefined ? {} : arguments[0];
+    var states = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
     var promises = [];
 
     var _await = function _await() {
-        var _promises = arguments[0] === undefined ? [] : arguments[0];
+        var _promises = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
 
         promises = promises.concat(_promises);
         return Promise.all(promises);
@@ -1664,25 +1549,22 @@ var resolver = function resolver() {
         return states;
     };
 
-    return {
-        finish: finish,
-        resolve: resolve,
-        getState: getState
-    };
+    return { finish: finish, resolve: resolve, getState: getState };
 };
 
 resolver.renderToString = function (component, renderer) {
-    var instance = arguments[2] === undefined ? resolver() : arguments[2];
+    var instance = arguments.length <= 2 || arguments[2] === undefined ? resolver() : arguments[2];
 
     var t = component(instance);
     renderer(t);
     return instance.finish().then(function () {
+        console.log(instance.getState());
         return renderer(t);
     });
 };
 
 resolver.render = function (component, node) {
-    var instance = arguments[2] === undefined ? resolver() : arguments[2];
+    var instance = arguments.length <= 2 || arguments[2] === undefined ? resolver() : arguments[2];
 
     var t = component(instance);
     m.mount(node, t);
@@ -1690,5 +1572,118 @@ resolver.render = function (component, node) {
 
 module.exports = { resolver: resolver, m: m, container: container };
 
+},{}],2:[function(require,module,exports){
+'use strict';
 
-},{"./mithril":2}]},{},[1]);
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } }
+
+var _mithrilResolver = require('mithril-resolver');
+
+var qs = function qs(s) {
+    var e = arguments.length <= 1 || arguments[1] === undefined ? document : arguments[1];
+    return s ? e.querySelector(s) : e;
+};
+
+var computable = function computable(fn) {
+    return function () {
+        _mithrilResolver.m.startComputation();
+        var result = fn.apply(undefined, arguments);
+        _mithrilResolver.m.endComputation();
+        return result;
+    };
+};
+
+var engine = function engine() {
+    var parseHash = function parseHash() {
+        return parseInt(window.location.hash.slice(1)) || 0;
+    };
+
+    var slides = _mithrilResolver.m.prop([]),
+        active = _mithrilResolver.m.prop(parseHash()),
+        prev = _mithrilResolver.m.prop();
+
+    var insert = computable(function (val, index) {
+        if (val instanceof Function) val = { view: val };
+        if (!val.controller) val.controller = function () {};
+
+        if (typeof index === 'undefined') index = slides().length;
+
+        var i = slides();
+        var first = i.slice(0, index);
+        var third = i.slice(index + 1);
+
+        return slides([].concat(_toConsumableArray(first), [val], _toConsumableArray(third)));
+    });
+
+    var remove = computable(function (index) {
+        var i = slides();
+        var first = i.slice(0, index);
+        var second = i.slice(index + 1);
+
+        return slides([].concat(_toConsumableArray(first), _toConsumableArray(second)));
+    });
+
+    var navigate = function navigate(index) {
+        window.location.hash = '#' + index;
+        prev(active());
+        return active(index);
+    };
+
+    var LEFT = 37,
+        RIGHT = 39;
+
+    var events = {
+        onkeyup: function onkeyup(e) {
+            var keyCode = e.keyCode;
+
+            if (LEFT === keyCode) {
+                var next = active() - 1;
+                if (next < 0) next = slides().length - 1;
+                navigate(next);
+            } else if (RIGHT === keyCode) {
+                var next = active() + 1;
+                if (next > slides().length - 1) next = 0;
+                navigate(next);
+            }
+        }
+    };
+
+    var config = function config(element, init, vdom) {
+        if (active() === prev()) return;
+    };
+
+    var hashChanger = function hashChanger() {
+        return window.addEventListener('hashchange', function () {
+            var hash = window.location.hash;
+            var slide = parseInt(hash.slice(1));
+            if (slide !== NaN) {
+                navigate(slide);
+            }
+        });
+    };
+
+    var valueOf = function valueOf(a) {
+        return a();
+    };
+
+    var view = function view(ctrl) {
+        var a = active(),
+            s = slides(),
+            sel = active() < prev() && 'from-left' || active() > prev() && 'from-right' || '';
+
+        var _slide = (0, _mithrilResolver.m)('div', { key: a, className: sel }, s[a]);
+
+        return (0, _mithrilResolver.m)('html', { config: config }, [(0, _mithrilResolver.m)('head', [(0, _mithrilResolver.m)('title', 'something'), (0, _mithrilResolver.m)('meta', { name: 'viewport', content: "width=device-width, initial-scale=1.0" }), (0, _mithrilResolver.m)('link', { href: './style.css', type: 'text/css', rel: 'stylesheet' })]), (0, _mithrilResolver.m)('body', events, [(0, _mithrilResolver.m)('.slides', _slide) //_slides.map(valueOf))
+        ])]);
+    };
+
+    var render = function render() {
+        return (hashChanger(), _mithrilResolver.m.mount(qs.apply(undefined, arguments), { view: view }));
+    };
+
+    return { slides: slides, insert: insert, remove: remove, navigate: navigate, render: render };
+};
+
+module.exports = { engine: engine, resolver: _mithrilResolver.resolver, container: _mithrilResolver.container, m: _mithrilResolver.m };
+
+},{"mithril-resolver":1}]},{},[2]);
