@@ -55,9 +55,7 @@ npm run watch
     }
 
     let e = engine()
-    e.insert({
-
-    })
+    e.insert(home)
     e.render('html')
     ```
 
