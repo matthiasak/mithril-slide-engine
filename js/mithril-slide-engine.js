@@ -92,7 +92,7 @@ const engine = () => {
                 m('link', {href: './style.css', type:'text/css', rel:'stylesheet'})
             ]),
             m('body', events, [
-                m('.slides', _slide)//_slides.map(valueOf))
+                m('.slides', _slide)
             ])
         ])
     }
@@ -102,4 +102,4 @@ const engine = () => {
     return { slides, insert, remove, navigate, render }
 }
 
-module.exports = {engine, resolver, container, m}
+export {engine, resolver, container, m}

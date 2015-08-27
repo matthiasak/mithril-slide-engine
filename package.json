@@ -11,10 +11,10 @@
   "main": "./dist/mithril-slide-engine.js",
   "scripts": {
     "build:css": "postcss --use postcss-import --use postcss-mixins --use postcss-simple-vars --use postcss-calc --use postcss-nested --use postcss-conditionals --use postcss-for --use postcss-each --use postcss-simple-extend --use autoprefixer --use csswring -o ./dist/style.css scss/style.scss;",
-    "build:js-min": "browserify -e ./js/mithril-slide-engine.js -t [babelify --stage 1] | uglifyjs -m > ./dist/mithril-slide-engine.js",
-    "build": "npm run build:js-min & npm run build:css",
+    "build:js": "babel --stage 1 ./js/mithril-slide-engine.js > dist/mithril-slide-engine.js",
+    "build": "npm run build:js & npm run build:css",
     "watch:css": "chokidar-cmd -c 'npm run build:css' -t ./scss/",
-    "watch:js": "watchify ./js/mithril-slide-engine.js -t [ babelify --stage 1 ] -o ./dist/mithril-slide-engine.js",
+    "watch:js": "chokidar-cmd -c 'npm run build:js' -t ./js/",
     "watch": "npm run watch:css & npm run watch:js;",
     "msg": "# ---------------------------------\n# \n# \n# Do either 1 or 2, not both:\n# \n# 1. If you have your global tools already installed from a prior project with this boilerplate (babel, postcss, etc): _npm run linkup_.\n# 2. If you don't yet run this, run it once and don't run it again: _npm run setup_.\n# \n# \n# ---------------------------------\n#\n#\n#---- finally start your server with _npm run s_ :-) \"",
     "setup": "npm run global_installs && npm run linkup",
