@@ -102,4 +102,4 @@ const engine = () => {
     return { slides, insert, remove, navigate, render }
 }
 
-export default {engine, resolver, container, m}
+module.exports = {engine, resolver, container, m}
