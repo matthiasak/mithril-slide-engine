@@ -22,9 +22,6 @@
     "linkup": "npm link autoprefixer babel-runtime babel babelify browserify chai chokidar-cmd csswring mocha nodemon postcss postcss-calc postcss-cli postcss-conditionals postcss-each postcss-for postcss-import postcss-mixins postcss-nested postcss-simple-extend postcss-simple-vars uglify-js uglifyify watchify; npm run bower;",
     "bower": "bower install normalize-css pace typeplate-starter-kit --save;"
   },
-  "devDependencies": {
-    "mithril-resolver": "0.0.10"
-  },
   "dependencies": {
     "mithril-resolver": "0.0.11"
   }

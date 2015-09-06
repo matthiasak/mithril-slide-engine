@@ -140,16 +140,6 @@ body {
     }
 }
 
-$red1: rgba(190,60,90,.8);
-$red2:rgba(130,80,130,.8);
-
-a {
-    color: $red1;
-    &:hover {
-        color: $red2
-    }
-}
-
 @keyframes fadeIn {
     0%{ opacity: 0; }
     100%{ opacity: 1; }
@@ -217,6 +207,29 @@ a {
     }
 }
 
-/**
- * Specific slide styles
- */
+.arrow {
+    position: fixed;
+    top: 50%;
+    background: black;
+    color: white;
+    display: inline-block;
+    padding: .4rem;
+    transform: translateY(-50%);
+    z-index: 1;
+    &.left {
+        left: 0;
+        &:before{content: '↤';}
+    }
+    &.right {
+        right: 0;
+        &:before{content: '↦';}
+    }
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+html:fullscreen,body:fullscreen,.slides:fullscreen {
+    width:100%;
+    height:100%;
+}
