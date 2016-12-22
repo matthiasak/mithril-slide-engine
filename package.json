@@ -23,6 +23,6 @@
     "bower": "bower install normalize-css pace typeplate-starter-kit --save;"
   },
   "dependencies": {
-    "mithril-resolver": "0.0.11"
+    "mithril-resolver": "0.0.13"
   }
 }
